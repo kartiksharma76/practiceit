@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In &bull; Kartik Technical Interview &amp; Evaluation Suite</title>
+    <link rel="stylesheet" href="css/auth.css?v=20261026_v12">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('kte-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            if (saved === 'light') document.documentElement.classList.add('theme-light');
+        })();
+    </script>
+</head>
+<body class="auth-body">
+
+<!-- Floating Top-Right Controls -->
+<div style="position: fixed; top: 1.25rem; right: 1.5rem; z-index: 999; display: flex; align-items: center; gap: 0.75rem;">
+    <button type="button" class="btn-theme-toggle" id="btnThemeToggle" title="Switch Theme (Alt+T)" aria-label="Toggle Theme" style="background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); padding: 0.4rem 0.85rem; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; color: #f8fafc; font-weight: 600; font-size: 0.82rem; transition: all 0.25s ease;">
+        <span class="theme-icon-indicator" id="themeIcon">🌙</span>
+        <span class="theme-label" id="themeLabel">Dark</span>
+    </button>
+</div>
+
+<div class="auth-card-container">
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <div class="auth-brand-logo">
+                <span style="font-size: 1.6rem;">⚡</span>
+                <span style="font-weight: 800; letter-spacing: -0.02em;">KARTIK EVAL <span style="background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; font-size: 0.68rem; font-weight: 900; padding: 0.15rem 0.5rem; border-radius: 6px; margin-left: 0.3rem;">PRO</span></span>
+            </div>
+            <p class="auth-subtitle" id="authSubtitle">
+                Enterprise Candidate Evaluation &bull; 500+ Architecture Modules &bull; ISO/IEC 27001
+            </p>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab-btn active" id="tabSignIn">Sign In</button>
+            <button type="button" class="auth-tab-btn" id="tabSignUp">Create Account</button>
+        </div>
+
+        <!-- Status Message Banner -->
+        <div id="authStatus" class="auth-status"></div>
+
+        <!-- SIGN IN FORM -->
+        <form id="signInForm" class="auth-form">
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">✉️</span>
+                    <input type="email" id="loginEmail" class="auth-input" placeholder="name@example.com" required autocomplete="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">
+                    <span>Password</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="loginPassword" class="auth-input" placeholder="Enter your password" required autocomplete="current-password">
+                    <button type="button" class="btn-toggle-pwd" id="toggleLoginPwd" title="Show/Hide Password">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth-submit" id="btnSubmitLogin">
+                Sign In to Platform
+            </button>
+        </form>
+
+        <!-- SIGN UP FORM (Initially Hidden) -->
+        <form id="signUpForm" class="auth-form" style="display: none;">
+            <div class="form-group">
+                <label for="regName">Full Name</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="regName" class="auth-input" placeholder="e.g. Kartik Sharma" required autocomplete="name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="regEmail">Email Address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">✉️</span>
+                    <input type="email" id="regEmail" class="auth-input" placeholder="name@example.com" required autocomplete="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">Password (min 6 characters)</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="regPassword" class="auth-input" placeholder="Create secure password" minlength="6" required autocomplete="new-password">
+                    <button type="button" class="btn-toggle-pwd" id="toggleRegPwd" title="Show/Hide Password">👁️</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="regRole">Select Role</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🛡️</span>
+                    <select id="regRole" class="auth-input" style="padding-left: 2.75rem;">
+                        <option value="ROLE_CANDIDATE">Candidate / Student</option>
+                        <option value="ROLE_EVALUATOR">Technical Evaluator / Interviewer</option>
+                        <option value="ROLE_ADMIN">Administrator</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth-submit" id="btnSubmitRegister">
+                Create Account &amp; Sign In
+            </button>
+        </form>
+
+        <!-- Demo Accounts Autofill -->
+        <div class="demo-accounts-box">
+            <div class="demo-title">⚡ Quick 1-Click Demo Login</div>
+            <div class="demo-btn-grid">
+                <button type="button" class="btn-demo" id="btnDemoAdmin" title="Login as Kartik Sharma (Admin)">
+                    👑 Admin Login<br>
+                    <small style="color:var(--text-muted); font-size:0.7rem;">kartik@example.com</small>
+                </button>
+                <button type="button" class="btn-demo" id="btnDemoCandidate" title="Login as Candidate">
+                    🎓 Candidate Login<br>
+                    <small style="color:var(--text-muted); font-size:0.7rem;">candidate@example.com</small>
+                </button>
+            </div>
+        </div>
+
+        <div class="auth-footer-nav">
+            <a href="index.html">← Return to Technical Assessment Platform</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/session.js?v=20261026_v12"></script>
+<script src="js/auth.js?v=20261026_v12"></script>
+</body>
+</html>

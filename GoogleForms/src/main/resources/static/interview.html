@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartik Enterprise Technical Evaluation &amp; Assessment Suite 2026</title>
+    <link rel="stylesheet" href="css/interview.css?v=20261026_v12">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('kte-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            if (saved === 'light') document.documentElement.classList.add('theme-light');
+        })();
+    </script>
+</head>
+<body class="interview-body">
+
+<!-- Proctoring Tab-Switch Notice Toast -->
+<div class="proctor-toast" id="proctorToast">
+    <span>⚠️ Assessment Notice: Window / Tab switch detected! Event logged.</span>
+</div>
+
+<!-- ==========================================================================
+     1. TOP APPLICATION NAVIGATION BAR (HEADER)
+     ========================================================================== -->
+<header class="app-header">
+    <!-- Left: Brand Logo & Title -->
+    <a href="index.html" class="header-left-brand">
+        <div class="brand-badge-icon">&lt;/&gt;</div>
+        <div class="brand-text-column">
+            <div class="brand-title-row">
+                <span class="brand-name">KARTIK EVAL</span>
+                <span class="brand-pro-tag">PRO</span>
+            </div>
+            <div class="brand-subline">Java Assessment Platform</div>
+        </div>
+    </a>
+
+    <!-- Center: Platform Mode & Navigation Links -->
+    <nav class="header-center-nav">
+        <a href="index.html" class="nav-link-item" id="navDashboard">
+            <span>🏠</span> <span>Dashboard</span>
+        </a>
+        <a href="practice.html" class="nav-link-item active" id="practiceModeBtn">
+            <span>📝</span> <span>Practice</span>
+        </a>
+        <a href="exam.html" class="nav-link-item" id="examModeBtn">
+            <span>📅</span> <span>Exam</span>
+        </a>
+        <a href="index.html#analytics" class="nav-link-item" id="navAnalytics">
+            <span>📊</span> <span>Analytics</span>
+        </a>
+        <a href="practice.html?track=interview-tricky" class="nav-link-item" id="navInterviewPrep">
+            <span>🎖️</span> <span>Interview Prep</span>
+        </a>
+        <a href="practice.html?track=code-bank" class="nav-link-item" id="navResources">
+            <span>📁</span> <span>Resources</span>
+        </a>
+    </nav>
+
+    <!-- Right: Theme Switcher, Audio & Candidate Profile -->
+    <div class="header-right-profile">
+        <button type="button" class="btn-theme-toggle" id="btnThemeToggle" title="Switch Theme (Alt+T)" aria-label="Toggle Theme">
+            <span class="theme-icon-indicator" id="themeIcon">🌙</span>
+            <span class="theme-label" id="themeLabel">Dark</span>
+        </button>
+
+        <button type="button" class="btn-bell-action" id="btnToggleAudio" title="Toggle Cockpit Audio SFX">
+            <span id="audioIcon">🔔</span>
+        </button>
+        
+        <div class="user-profile-card" id="btnNavHistory" title="Candidate Profile &amp; Exam History">
+            <div class="user-avatar-circle">KS</div>
+            <div class="user-details">
+                <span class="user-name-txt">Kartik Sharma</span>
+                <span class="user-role-badge">👑 Pro Member</span>
+            </div>
+            <span class="user-caret-icon">⌄</span>
+        </div>
+    </div>
+</header>
+
+<!-- Hidden fallback selects for dynamic data compatibility -->
+<select id="headerTrackSelect" style="display: none;"></select>
+<select id="headerSubtopicSelect" style="display: none;"></select>
+
+<!-- ==========================================================================
+     2. THREE-COLUMN APPLICATION WORKSPACE
+     ========================================================================== -->
+<div class="app-main-layout">
+
+    <!-- COLUMN 1: LEFT SIDEBAR (SUBTOPICS & PROMO) -->
+    <aside class="sidebar-left-pane">
+        <div>
+            <div class="sidebar-track-title" id="leftSidebarTrackTitle">
+                Core &amp; Advanced Java
+            </div>
+
+            <div class="sidebar-subtopics-list" id="sidebarSubtopicsList">
+                <!-- Dynamically populated by interview.js -->
+            </div>
+
+            <button type="button" class="subtopic-show-more" id="btnShowMoreSubtopics">
+                <span>Show More</span> <span>⌄</span>
+            </button>
+        </div>
+
+        <!-- Master Java Promo Card -->
+        <div class="sidebar-promo-card">
+            <div class="promo-coffee-icon">☕</div>
+            <div class="promo-heading">Master Java</div>
+            <div class="promo-subtext">Practice &bull; Evaluate &bull; Improve</div>
+            <button type="button" class="btn-promo-action" onclick="window.showToast('You are on the Pro Enterprise Tier!', 'success', '👑')">
+                👑 Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <!-- COLUMN 2: CENTER WORKSPACE (QUESTION ARENA) -->
+    <main class="workspace-center-pane" id="mainWorkspacePane">
+        <div>
+            <!-- Breadcrumb Navigation -->
+            <div class="workspace-breadcrumb">
+                <span id="activeTrackTitleBreadcrumb">Core &amp; Advanced Java</span>
+                <span class="breadcrumb-arrow">&rsaquo;</span>
+                <span class="breadcrumb-active-label" id="activeSubtopicBreadcrumb">All Subtopics</span>
+            </div>
+
+            <!-- Dynamic Question / List Container -->
+            <div id="questionsContainer">
+                <!-- Dynamically injected by buildQuestionCardHtml in interview.js -->
+            </div>
+
+            <!-- Pagination Bar for List View (if active) -->
+            <div id="paginationBar" style="display: none;"></div>
+        </div>
+
+        <!-- Center Bottom Navigation Bar -->
+        <div class="center-bottom-navbar">
+            <button type="button" class="btn-nav-step" id="topBtnPrev" onclick="window.navigatePrev()" title="Previous Question (J)">
+                &larr; Previous [J]
+            </button>
+
+            <div class="center-progress-wrapper">
+                <span class="center-q-count" id="headerQuestionCounter">Question 1 of 500</span>
+                <div class="center-track">
+                    <div class="center-fill" id="dockProgressFill" style="width: 0.2%;"></div>
+                </div>
+                <span class="center-pct" id="dockProgressTxt">0%</span>
+            </div>
+
+            <button type="button" class="btn-nav-step btn-primary-gradient" id="topBtnNext" onclick="window.navigateNext()" title="Next Question (K)">
+                Next Question [K] &rarr;
+            </button>
+        </div>
+    </main>
+
+    <!-- COLUMN 3: RIGHT SIDEBAR (COCKPIT CARDS) -->
+    <aside class="sidebar-right-pane">
+        
+        <!-- CARD 1: EXAM MODE / TIMER COCKPIT -->
+        <div class="cockpit-panel-card">
+            <div class="cockpit-card-header">
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span>⏱️</span>
+                    <span id="timerCockpitTitle">Exam Mode</span>
+                </div>
+                <span class="timer-active-badge" id="timerStatusBadge">● Active</span>
+            </div>
+
+            <div class="digital-timer-clock" id="timerDisplay">
+                02:59:36
+            </div>
+
+            <div class="timer-btn-row">
+                <button type="button" class="btn-timer-pause" id="btnCockpitPause">
+                    <span id="cockpitPauseIcon">⏸</span> <span id="cockpitPauseText">Pause</span>
+                </button>
+                <button type="button" class="btn-timer-end" id="btnCockpitEnd">
+                    <span>🛑</span> <span id="cockpitEndText">End Exam</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 2: QUESTION PALETTE -->
+        <div class="cockpit-panel-card">
+            <div class="cockpit-card-header">
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span>🪟</span>
+                    <span>Question Palette</span>
+                </div>
+            </div>
+
+            <!-- Number Matrix Grid -->
+            <div class="palette-matrix-grid" id="paletteGrid">
+                <!-- Dynamically populated by interview.js -->
+            </div>
+
+            <!-- Palette Status Legend -->
+            <div class="palette-legend-row">
+                <div class="legend-item"><span class="dot-indicator green"></span> Correct</div>
+                <div class="legend-item"><span class="dot-indicator red"></span> Wrong</div>
+                <div class="legend-item"><span class="dot-indicator yellow"></span> Flagged</div>
+                <div class="legend-item"><span class="dot-indicator gray"></span> Unattempted</div>
+            </div>
+        </div>
+
+        <!-- CARD 3: LIVE PERFORMANCE METRICS -->
+        <div class="cockpit-panel-card">
+            <div class="cockpit-card-header">
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span>📊</span>
+                    <span>Live Performance</span>
+                </div>
+            </div>
+
+            <div class="performance-body-flex">
+                <!-- Radial Accuracy Ring -->
+                <div class="radial-gauge-container">
+                    <svg class="radial-svg" viewBox="0 0 36 36">
+                        <circle class="radial-bg" cx="18" cy="18" r="14.5"></circle>
+                        <circle class="radial-progress" id="radialAccuracyProgress" cx="18" cy="18" r="14.5"></circle>
+                    </svg>
+                    <div class="radial-text-pct" id="radialAccuracyTxt">0%</div>
+                </div>
+
+                <!-- Stats Breakdown Table -->
+                <div class="performance-stats-table">
+                    <div class="perf-stat-row">
+                        <span>Attempted</span>
+                        <strong id="statAttempted">0 / 500</strong>
+                    </div>
+                    <div class="perf-stat-row">
+                        <span>Correct</span>
+                        <strong id="statCorrect" style="color: #34d399;">0</strong>
+                    </div>
+                    <div class="perf-stat-row">
+                        <span>Wrong</span>
+                        <strong id="statWrong" style="color: #fb7185;">0</strong>
+                    </div>
+                    <div class="perf-stat-row">
+                        <span>Accuracy</span>
+                        <strong id="statAccuracy" style="color: #a78bfa;">0%</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 4: EVALUATION MODULES (TRACK SWITCHER) -->
+        <div class="cockpit-panel-card">
+            <div class="cockpit-card-header">
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span>🌐</span>
+                    <span>Evaluation Modules</span>
+                </div>
+            </div>
+
+            <div class="evaluation-modules-list" id="sidebarTrackList">
+                <!-- Populated dynamically by interview.js -->
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+<!-- Hidden backward-compatibility elements to prevent JS reference errors -->
+<div style="display: none;">
+    <span id="liveScore">0 Marks</span>
+    <button id="viewFocusBtn"></button>
+    <button id="viewListBtn"></button>
+    <button id="btnShortcutsHeader"></button>
+    <button id="btnToggleFullscreen"></button>
+    <button id="submitExamBtn"></button>
+    <button id="dockBtnPrev"></button>
+    <button id="dockBtnNext"></button>
+    <button id="dockBtnFlag"></button>
+    <span id="dockFlagTxt"></span>
+    <button id="dockBtnClear"></button>
+    <button id="dockBtnSubmit"></button>
+    <span id="sidebarInfractionsCount">0</span>
+    <input type="text" id="paletteSearchInput">
+</div>
+
+<!-- ==========================================================================
+     3. DIAGNOSTIC SCORECARD MODAL (RESULT PRESENTATION)
+     ========================================================================== -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+        <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        
+        <div style="text-align: center;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem;">
+                Official Candidate Assessment Scorecard
+            </div>
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 0.35rem;" id="modalTrackName">
+                Core &amp; Advanced Java
+            </h2>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);" id="modalTimestamp">
+                Completed on October 26, 2026
+            </div>
+        </div>
+
+        <div class="score-hero-circle">
+            <div class="num" id="modalScore">0</div>
+            <div class="denom" id="modalMaxScore">/ 2000</div>
+        </div>
+
+        <div style="text-align: center;">
+            <span class="status-badge pass" id="modalBadge">VERIFIED ARCHITECT LEVEL</span>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-box green">
+                <div class="r-val" id="modalCorrect">0</div>
+                <div class="r-label">Correct (+4 each)</div>
+            </div>
+            <div class="report-box red">
+                <div class="r-val" id="modalWrong">0</div>
+                <div class="r-label">Incorrect (-1 each)</div>
+            </div>
+            <div class="report-box blue">
+                <div class="r-val" id="modalAccuracy">0%</div>
+                <div class="r-label">Accuracy Rate</div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+            <button type="button" class="btn-nav-step" id="reviewExamBtn" style="flex: 1; justify-content: center;">
+                🔍 Review Responses
+            </button>
+            <button type="button" class="btn-nav-step btn-primary-gradient" id="retakeExamBtn" style="flex: 1; justify-content: center;">
+                🔄 Retake Track
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     4. ASSESSMENT HISTORY MODAL
+     ========================================================================== -->
+<div class="modal-overlay" id="historyModal">
+    <div class="modal-card" style="max-width: 680px;">
+        <button type="button" class="modal-close-btn" id="closeHistoryBtn">&times;</button>
+        <div style="font-size: 0.75rem; font-weight: 800; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.35rem;">
+            Candidate Audit Trail
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-bottom: 1.15rem;">
+            Assessment Records &amp; Diagnostic Log
+        </h2>
+        <div class="history-list" id="historyListContainer" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto;">
+            <!-- Rendered by interview.js -->
+        </div>
+    </div>
+</div>
+
+<!-- Global Toast Notification Container -->
+<div class="app-toast-container" id="appToastContainer"></div>
+
+<!-- Scripts -->
+<script src="js/session.js?v=20261026_v12"></script>
+<script src="js/interview-data.js?v=20261026_v12"></script>
+<script src="js/interview.js?v=20261026_v12"></script>
+
+</body>
+</html>

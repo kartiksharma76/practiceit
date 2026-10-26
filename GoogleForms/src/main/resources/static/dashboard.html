@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartik Eval Pro - Candidate Assessment Dashboard</title>
+    <link rel="stylesheet" href="css/interview.css?v=20261026_v12">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('kte-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            if (saved === 'light') document.documentElement.classList.add('theme-light');
+        })();
+    </script>
+</head>
+<body class="interview-body">
+
+<!-- Proctoring Tab-Switch Notice Toast -->
+<div class="proctor-toast" id="proctorToast">
+    <span>⚠️ Assessment Notice: Window / Tab switch detected! Event logged.</span>
+</div>
+
+<!-- ==========================================================================
+     1. TOP APPLICATION NAVIGATION BAR (HEADER)
+     ========================================================================== -->
+<header class="app-header">
+    <a href="index.html" class="header-left-brand">
+        <div class="brand-badge-icon">&lt;/&gt;</div>
+        <div class="brand-text-column">
+            <div class="brand-title-row">
+                <span class="brand-name">KARTIK EVAL</span>
+                <span class="brand-pro-tag">PRO</span>
+            </div>
+            <div class="brand-subline">Java Assessment Platform</div>
+        </div>
+    </a>
+
+    <nav class="header-center-nav">
+        <a href="index.html" class="nav-link-item active" id="navDashboard">
+            <span>🏠</span> <span>Dashboard</span>
+        </a>
+        <a href="practice.html" class="nav-link-item" id="practiceModeBtn">
+            <span>📝</span> <span>Practice</span>
+        </a>
+        <a href="exam.html" class="nav-link-item" id="examModeBtn">
+            <span>📅</span> <span>Exam</span>
+        </a>
+        <a href="index.html#analytics" class="nav-link-item" id="navAnalytics" onclick="window.openDashboard()">
+            <span>📊</span> <span>Analytics</span>
+        </a>
+        <a href="practice.html?track=interview-tricky" class="nav-link-item" id="navInterviewPrep">
+            <span>🎖️</span> <span>Interview Prep</span>
+        </a>
+        <a href="practice.html?track=code-bank" class="nav-link-item" id="navResources">
+            <span>📁</span> <span>Resources</span>
+        </a>
+    </nav>
+
+    <div class="header-right-profile">
+        <button type="button" class="btn-theme-toggle" id="btnThemeToggle" title="Switch Theme (Alt+T)" aria-label="Toggle Theme">
+            <span class="theme-icon-indicator" id="themeIcon">🌙</span>
+            <span class="theme-label" id="themeLabel">Dark</span>
+        </button>
+
+        <button type="button" class="btn-bell-action" id="btnToggleAudio" title="Toggle Cockpit Audio SFX">
+            <span id="audioIcon">🔔</span>
+        </button>
+        
+        <div class="user-profile-card" id="btnNavHistory" title="Candidate Profile &amp; Exam History">
+            <div class="user-avatar-circle">KS</div>
+            <div class="user-details">
+                <span class="user-name-txt">Kartik Sharma</span>
+                <span class="user-role-badge">👑 Pro Member</span>
+            </div>
+            <span class="user-caret-icon">⌄</span>
+        </div>
+    </div>
+</header>
+
+<select id="headerTrackSelect" style="display: none;"></select>
+<select id="headerSubtopicSelect" style="display: none;"></select>
+
+<!-- FRONT PAGE DASHBOARD CONTAINER -->
+<div style="max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem; width: 100%;">
+    <div class="workspace-breadcrumb" style="margin-bottom: 1.25rem;">
+        <span id="activeTrackTitleBreadcrumb" class="breadcrumb-track-txt">KARTIK EVAL PRO</span>
+        <span class="breadcrumb-arrow">&rsaquo;</span>
+        <span class="breadcrumb-active-label" id="activeSubtopicBreadcrumb" style="color: #a78bfa;">Candidate Performance Dashboard</span>
+    </div>
+
+    <div id="questionsContainer"></div>
+    <div id="paginationBar" style="display: none;"></div>
+</div>
+
+<!-- Hidden compatibility elements -->
+<div style="display: none;">
+    <span id="liveScore">0 Marks</span>
+    <button id="viewFocusBtn"></button>
+    <button id="viewListBtn"></button>
+    <button id="btnShortcutsHeader"></button>
+    <button id="btnToggleFullscreen"></button>
+    <button id="submitExamBtn"></button>
+    <button id="dockBtnPrev"></button>
+    <button id="dockBtnNext"></button>
+    <button id="dockBtnFlag"></button>
+    <span id="dockFlagTxt"></span>
+    <button id="dockBtnClear"></button>
+    <button id="dockBtnSubmit"></button>
+    <span id="sidebarInfractionsCount">0</span>
+    <input type="text" id="paletteSearchInput">
+    <div id="paletteGrid"></div>
+    <div id="sidebarTrackList"></div>
+    <div id="sidebarSubtopicsList"></div>
+    <span id="timerDisplay"></span>
+    <span id="statAttempted"></span>
+    <span id="statCorrect"></span>
+    <span id="statWrong"></span>
+    <span id="statAccuracy"></span>
+    <div id="radialAccuracyProgress"></div>
+    <span id="radialAccuracyTxt"></span>
+    <button id="topBtnPrev"></button>
+    <button id="topBtnNext"></button>
+    <span id="headerQuestionCounter"></span>
+    <div id="dockProgressFill"></div>
+    <span id="dockProgressTxt"></span>
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+        <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        <div style="text-align: center;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem;">
+                Official Candidate Assessment Scorecard
+            </div>
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 0.35rem;" id="modalTrackName">
+                Core &amp; Advanced Java
+            </h2>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);" id="modalTimestamp">
+                Completed on October 26, 2026
+            </div>
+        </div>
+
+        <div class="score-hero-circle">
+            <div class="num" id="modalScore">0</div>
+            <div class="denom" id="modalMaxScore">/ 2000</div>
+        </div>
+
+        <div style="text-align: center;">
+            <span class="status-badge pass" id="modalBadge">VERIFIED ARCHITECT LEVEL</span>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-box green">
+                <div class="r-val" id="modalCorrect">0</div>
+                <div class="r-label">Correct (+4 each)</div>
+            </div>
+            <div class="report-box red">
+                <div class="r-val" id="modalWrong">0</div>
+                <div class="r-label">Incorrect (-1 each)</div>
+            </div>
+            <div class="report-box blue">
+                <div class="r-val" id="modalAccuracy">0%</div>
+                <div class="r-label">Accuracy Rate</div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+            <button type="button" class="btn-nav-step" id="reviewExamBtn" style="flex: 1; justify-content: center;">
+                🔍 Review Responses
+            </button>
+            <button type="button" class="btn-nav-step btn-primary-gradient" id="retakeExamBtn" style="flex: 1; justify-content: center;">
+                🔄 Retake Track
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="historyModal">
+    <div class="modal-card" style="max-width: 680px;">
+        <button type="button" class="modal-close-btn" id="closeHistoryBtn">&times;</button>
+        <div style="font-size: 0.75rem; font-weight: 800; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.35rem;">
+            Candidate Audit Trail
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-bottom: 1.15rem;">
+            Assessment Records &amp; Diagnostic Log
+        </h2>
+        <div class="history-list" id="historyListContainer" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto;">
+        </div>
+    </div>
+</div>
+
+<div class="app-toast-container" id="appToastContainer"></div>
+
+<!-- Scripts -->
+<script src="js/session.js?v=20261026_v12"></script>
+<script src="js/interview-data.js?v=20261026_v12"></script>
+<script src="js/interview.js?v=20261026_v12"></script>
+
+</body>
+</html>

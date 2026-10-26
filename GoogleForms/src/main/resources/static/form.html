@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="3; url=index.html">
+    <title>Redirecting to Kartik Technical Assessment Platform</title>
+    <link rel="stylesheet" href="css/auth.css?v=20261026_v12">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('kte-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            if (saved === 'light') document.documentElement.classList.add('theme-light');
+        })();
+    </script>
+    <style>
+        .redirect-card {
+            background: rgba(19, 27, 46, 0.9);
+            border: 1.5px solid rgba(99, 102, 241, 0.35);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.25);
+            backdrop-filter: blur(20px);
+        }
+        .redirect-icon {
+            font-size: 3rem;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .redirect-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+        .redirect-desc {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .btn-launch {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45);
+            transition: all 0.25s ease;
+        }
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+    </style>
+</head>
+<body class="auth-body">
+
+<div class="redirect-card">
+    <div class="redirect-icon">⚡</div>
+    <h1 class="redirect-title">Form Filler Retired</h1>
+    <p class="redirect-desc">
+        The public form-filling module has been replaced by the comprehensive 
+        <strong style="color: #a5b4fc;">Kartik Objective Question Selection Process &amp; Technical Evaluation Platform (500+ Java &amp; DSA)</strong>.
+    </p>
+    <a href="index.html" class="btn-launch">
+        Launch Technical Platform ➜
+    </a>
+    <p style="font-size: 0.8rem; color: #64748b; margin-top: 1.5rem;">
+        Auto-redirecting to platform in 3 seconds...
+    </p>
+</div>
+
+</body>
+</html>
